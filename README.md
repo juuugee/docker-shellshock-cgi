@@ -14,7 +14,9 @@ By itself, this bug cannot be abused from the outside. In combination with a web
 2. the web server stores general data as environment variables in the current environment
 3. the cgi application can get this information by reading the environment variables.
 
-With this behavior, it is possible to send a request to the web server that contains some function-like lines and concatenated code snippets. After parsing the function, the parsing process does not stop and executes the additional code snippets directly in bash
+With this behavior, it is possible to send a request to the web server that contains some function-like lines and concatenated code snippets. After parsing the function, the parsing process does not stop and executes the additional code snippets directly in bash <br>
+<br>
+Source Code of commit: https://gist.github.com/drj11/e85ca2d7503f28ebfde8
 
 
 ## Demonstration
